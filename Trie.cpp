@@ -11,7 +11,6 @@ TrieNode::TrieNode(){
 
 }
 
-
 TrieNode::~TrieNode(){
 
     for(int i = 0; i < ALPHABET_SIZE; i++){
@@ -29,6 +28,18 @@ Trie::~Trie(){
     if(root != nullptr){
         delete root;
     }
+}
+
+// Funcao auxiliar para converter caracteres em numeros
+int Trie::charToIndex(char c){
+    if(c >= 'a' && c <= 'z'){
+        return c - 'a';
+    }
+
+    if(c >= '0' && c <= '9'){
+        return 26 + (c - 'a');
+    }
+    return -1;
 }
 
 
