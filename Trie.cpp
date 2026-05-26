@@ -42,6 +42,22 @@ int Trie::charToIndex(char c){
     return -1;
 }
 
+// Funcao auxiliar para ver se o jogo a vem antes do b
+bool Trie::comesBefore(Game* a, Game* b){
+    if (a->getPopularity() > b->getPopularity()){
+        return true;
+    }
+    
+    if (a->getPopularity() < b->getPopularity()){
+        return false;
+    }
+
+    std::string keyA = toSearchKey(a->getTitle());
+    std::string keyB = toSearchKey(b->getTitle());
+
+    return keyA < keyB;
+}
+
 
 std::string Trie::toSearchKey(std::string text){
     std::string key = "";
