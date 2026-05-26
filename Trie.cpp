@@ -21,7 +21,7 @@ TrieNode::~TrieNode(){
 }
 
 Trie::Trie(){
-    root = new TrieNode;
+    root = new TrieNode();
 }
 
 Trie::~Trie(){
@@ -60,4 +60,33 @@ std::string Trie::toSearchKey(std::string text){
     }
 
     return key;
+}
+
+bool Trie::insert(Game* game){
+    if(game == nullptr){
+        return false;
+    }
+
+    std::string key = toSearchKey(game->getTitle());
+
+    TrieNode* current = root;
+
+    for(int i = 0; i < key.length(); i++){
+        int index = charToIndex(key[i]);
+        
+        if (index == -1){
+            return false;
+        }
+
+        if (current->children[index] == nullptr){
+            current->children[index] = new TrieNode();
+        }
+
+        current = current->children[index];
+    }
+
+    current->isEndOfTitle = true;
+    current->game = game;
+
+    return true;
 }
