@@ -22,7 +22,7 @@ class Trie{
         TrieNode* root;
 
         int charToIndex(char c);
-        void collectGame(TrieNode* node, std::vector<Game*>& results);
+        void collectGames(TrieNode* node, std::vector<Game*>& results);
         bool comesBefore(Game* a, Game* b);
 
     public:

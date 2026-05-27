@@ -37,9 +37,26 @@ int Trie::charToIndex(char c){
     }
 
     if(c >= '0' && c <= '9'){
-        return 26 + (c - 'a');
+        return 26 + (c - '0');
     }
     return -1;
+}
+
+// Funcao auxiliar para pegar jogos abaixo de um prefixo
+void Trie::collectGames(TrieNode* node, std::vector<Game*>& results){
+    if (node == nullptr){
+        return;
+    }
+
+    if (node->isEndOfTitle){
+        results.push_back(node->game);
+    }
+
+    for(int i = 0; i < ALPHABET_SIZE; i++){
+        if(node->children[i] != nullptr){
+            collectGames(node->children[i], results);
+        }
+    }
 }
 
 // Funcao auxiliar para ver se o jogo a vem antes do b
@@ -105,4 +122,25 @@ bool Trie::insert(Game* game){
     current->game = game;
 
     return true;
+}
+
+bool Trie::contains(std::string title){
+    std::string key = toSearchKey(title);
+
+    TrieNode* current = root;
+    for (int i = 0; i < key.length(); i++){
+        int index = charToIndex(key[i]);
+
+        if (index == -1){
+            return false;
+        }
+
+        if (current->children[index] == nullptr){
+            return false;
+        }
+
+        current = current->children[index];
+    }
+
+    return current->isEndOfTitle;
 }
