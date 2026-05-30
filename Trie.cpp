@@ -144,3 +144,36 @@ bool Trie::contains(std::string title){
 
     return current->isEndOfTitle;
 }
+
+
+void Trie::SortResults(std::vector<game*>& games){
+  int n = games.size();
+
+  for (int i = 0, i = n - 1, i++){
+    for(int j = n - i - 1, j++){
+      
+      Game* a = games[j];
+      Game* b = games[j + 1];
+    
+      bool DeveTrocar = false;
+
+      if (a->getPopularity() < b->getPopularity){
+        DeveTrocar = true;
+      } else if (a->getPoPularity() == b->getPopularity()){
+        std::string KeyA = toSearchKey(a->getTitle());
+        std::string KeyB = toSearchKey(getTitle());
+
+        if ( KeyA < KeyB){
+          DeveTrocar = true;
+        }
+      }
+
+      if(DeveTrocar) {
+        Game* temp = a;
+        a = b;
+        b = temp;
+      }
+  
+    }
+  }
+}
