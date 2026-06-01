@@ -146,34 +146,54 @@ bool Trie::contains(std::string title){
 }
 
 
-void Trie::SortResults(std::vector<game*>& games){
+void Trie::sortResults(std::vector<Game*>& games){
   int n = games.size();
 
-  for (int i = 0, i = n - 1, i++){
-    for(int j = n - i - 1, j++){
-      
-      Game* a = games[j];
-      Game* b = games[j + 1];
-    
-      bool DeveTrocar = false;
-
-      if (a->getPopularity() < b->getPopularity){
-        DeveTrocar = true;
-      } else if (a->getPoPularity() == b->getPopularity()){
-        std::string KeyA = toSearchKey(a->getTitle());
-        std::string KeyB = toSearchKey(getTitle());
-
-        if ( KeyA < KeyB){
-          DeveTrocar = true;
+  for(int i = 0; i < n-1; i++){
+    for (int j = 0; j < n - i - 1; j++){
+        if(!comesBefore(games[j], games[j+1])){
+            Game* temp = games[j];
+            games[j] = games[j+1];
+            games[j+1] = temp;
         }
-      }
-
-      if(DeveTrocar) {
-        Game* temp = a;
-        a = b;
-        b = temp;
-      }
-  
     }
   }
+}
+
+std::vector<Game*> Trie:: autocomplete(std::string prefix, int k){
+    std::vector<Game*> results;
+
+    if (k<=0){
+        return results;
+    }
+
+    std::string key = toSearchKey(prefix);
+    TrieNode* current = root;
+
+    // Fazendo a busca do prefixo dentro da Trie
+    for(int i = 0; i < key.length(); i++){
+        int index = charToIndex(key[i]);
+
+        if (index == -1){
+            return results;
+        }
+
+        if (current->children[index] == nullptr){
+            return results;
+        }
+
+        current = current->children[index];
+    }
+
+    // Coleta os jogos abaixo desse no e ordema
+    collectGames(current, results);
+    sortResults(results);
+
+    // Filtra os primeiros k jogos caso k seja menor que o tamanho dos results
+    std::vector<Game*> limitedResults;
+    for(int i = 0; i < k && i < results.size(); i++){
+        limitedResults.push_back(results[i]);
+    }
+
+    return limitedResults;
 }
