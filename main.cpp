@@ -4,9 +4,9 @@
 
 #include "Game.hpp"
 #include "Trie.hpp"
-#include "GameDatabase.cpp"
+#include "GamesDatabase.hpp"
 
-int main(argc, char*, argv[]){
+int main(int argc, char* argv[]){
   if (argc != 3){
     std::cout << "./app k prefixo" << std::endl;
     return 1;
@@ -22,7 +22,7 @@ int main(argc, char*, argv[]){
     trie.insert(&games[i]);
   }
 
-  std::vector<Game*> results = trie.autocomplete(prefix, k)
+  std::vector<Game*> results = trie.autocomplete(prefixo, k);
 
 
   if (results.empty()) {

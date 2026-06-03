@@ -1,5 +1,7 @@
-#include <string>
+#ifndef GAME_HPP
+#define GAME_HPP
 
+#include <string>
 
 class Game {
 
@@ -9,7 +11,6 @@ private:
     int popularity;
 
 public:
-
     Game();
     Game(std::string title, std::string shortDescription, int popularity);
     ~Game();
@@ -18,3 +19,5 @@ public:
     std::string getShortDescription();
     int getPopularity();
 };
+
+#endif
